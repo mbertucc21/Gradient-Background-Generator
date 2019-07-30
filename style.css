@@ -25,13 +25,45 @@ p{
 	letter-spacing: 2px;
 }
 
+.btn-group{
+	border: 2px solid #A9A9A9;
+	border-radius: 6px;
+}
+
+.btn:hover{
+	cursor: pointer;
+}
+
+.leftRight{
+	color: white;
+	background-color: #696969;
+	border: 2px solid #A9A9A9;
+	border-radius: 5px;
+	padding: 6px;
+}
+
+.leftRight:hover{
+	background-color: grey;
+	cursor: pointer;
+}
+
 .show div{
 	display: flex;
 	align-items: center;  /* vertical align */
 	justify-content: center;
 }
 
+.step3style p{
+	margin-left: 10px;
+}
+
 .show input{
+	color: white;
+	background-color: #696969;
+	border: 2px solid #A9A9A9;
+	border-radius: 5px;
+	padding: 6px;
+	margin-top: 2px;
 	text-align: center;
 }
 
@@ -74,4 +106,18 @@ h3 {
 .random-container{
 	margin: 8px;
 	text-align: center;
+}
+
+button{
+	color: white;
+	background-color: #696969;
+	border: 2px solid #A9A9A9;
+	border-radius: 5px;
+	padding: 6px;
+	margin-top: 2px;
+	text-align: center;
+}
+
+button:hover{
+	background-color:grey;
 }

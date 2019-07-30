@@ -14,8 +14,8 @@ let compStyles = window.getComputedStyle(body);
 
 // console.log(randomButton);
 // console.log(compStyles.getPropertyValue('background-image'));
-rgbOut.textContent = "Left Color: " + "255, 0, 0" + " || " + "Right Color: " + "0, 0, 255";
-hexOut.textContent = "Left Color: " + "FF0000" + " || " + "Right Color: " + "0000FF";
+rgbOut.textContent = "Left Color: " + "255,0,0" + " || " + "Right Color: " + "0,0,255";
+hexOut.textContent = "Left Color: " + "#FF0000" + " || " + "Right Color: " + "#0000FF";
 // console.log(color1.value);
 // console.log(color2.value);
 
@@ -25,6 +25,8 @@ hexOut.textContent = "Left Color: " + "FF0000" + " || " + "Right Color: " + "000
 function showHEX(){
   document.getElementById('inputsRGB').className="hide";
 	document.getElementById('inputsHEX').className="show";
+  document.querySelector(".activeRGB").className="btn btn-secondary activeRGB";
+  document.querySelector(".activeHEX").className="btn btn-secondary active activeHEX";
 }
 
 //////////////////////////////////////////////////////
@@ -33,6 +35,8 @@ function showHEX(){
 function showRGB(){
   document.getElementById('inputsHEX').className="hide";
 	document.getElementById('inputsRGB').className="show";
+  document.querySelector(".activeHEX").className="btn btn-secondary activeHEX";
+  document.querySelector(".activeRGB").className="btn btn-secondary active activeRGB";
 }
 
 //////////////////////////////////////////////////////
@@ -61,9 +65,11 @@ const rgbToHex = (input) => {
       outputHEX.push(valsHEX[i % 16]);
     })
 	let hexValues = outputHEX.join('');
-	console.log(`RGB(${input}) = #${hexValues}`);
+	// console.log(`RGB(${input}) = #${hexValues}`);
 	return ('#' + hexValues);  // returns String
-} else {console.log("INVALID RGB Input")};
+} else {
+    // console.log("INVALID RGB Input")
+  };
 }
 
 //////////////////////////////////////////////////////
@@ -78,7 +84,7 @@ const hexToRgb = (input) => {
   if (input[0] === '#') {hasHASH = true}
 
   let sixHEX = false;
-  if (input.slice(1,7).length === 6) {sixHEX = true}
+  if (input.slice(1).length === 6) {sixHEX = true}
 
   let validHEX = true;
   for (var i=1; i<inputLength; i++){
@@ -105,30 +111,51 @@ const hexToRgb = (input) => {
 		rgbARR = [r, g, b]
 		return rgbARR;  // returns Array
 
-  } else {console.log("INVALID HEX Input")}
+  } else {
+      // console.log("INVALID HEX Input")
+    }
 }
 
 //////////////////////////////////////////////////////
 // Selected Color Update
 //////////////////////////////////////////////////////
 function selectedColorUpdate() {
-	if (radioRGB.checked) {
+  // IF RGB CHECKED
+  if (radioRGB.checked) {
 		let r = Number(document.getElementById('valR').value);
 		let g = Number(document.getElementById('valG').value);
 		let b = Number(document.getElementById('valB').value);
-		if (leftGradient.selected) {
-			color1.value = rgbToHex([r, g, b]);
-		} else if (rightGradient.selected) {
-			color2.value = rgbToHex([r, g, b]);
-		}
 
+    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255){
+      // console.log("INVALID RGB VALUES!")
+      alert("Invalid RGB Values!  Please enter values between 0-255");
+    } else {
+      if (leftGradient.selected) {
+        color1.value = rgbToHex([r, g, b]);
+      } else if (rightGradient.selected) {
+        color2.value = rgbToHex([r, g, b]);
+      }
+    }
+
+  // IF HEX CHECKED
 	} else if (radioHEX.checked) {
 		let hex = document.getElementById('valHEX').value;
-		if (leftGradient.selected) {
-			color1.value = ('#' + hex);
-		} else if (rightGradient.selected) {
-			color2.value = ('#' + hex);
-		}
+    let valsHEX = '0123456789ABCDEF';
+    let validHEX = true;
+
+    for (var i=1; i<hex.length; i++){
+      if (!valsHEX.includes(hex[i])){validHEX = false}
+    }
+    if (hex.length !== 6 || !validHEX){
+      alert("Invalid HEX Value!  Please enter values six values that include the following: '0123456789ABCDEF'");
+      // console.log("INVALID HEX VALUE!")
+    } else {
+      if (leftGradient.selected) {
+        color1.value = ('#' + hex);
+      } else if (rightGradient.selected) {
+        color2.value = ('#' + hex);
+      }
+    }
 	}
 	setGradient();
 }
