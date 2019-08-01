@@ -122,20 +122,31 @@ const hexToRgb = (input) => {
 function selectedColorUpdate() {
   // IF RGB CHECKED
   if (radioRGB.checked) {
-		let r = Number(document.getElementById('valR').value);
-		let g = Number(document.getElementById('valG').value);
-		let b = Number(document.getElementById('valB').value);
 
-    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255){
-      // console.log("INVALID RGB VALUES!")
+		let r = document.getElementById('valR').value;
+		let g = document.getElementById('valG').value;
+		let b = document.getElementById('valB').value;
+
+    // Ensure Numbers Are Entered
+    if (isNaN(r) || isNaN(g) || isNaN(b)) {
       alert("Invalid RGB Values!  Please enter values between 0-255");
     } else {
-      if (leftGradient.selected) {
-        color1.value = rgbToHex([r, g, b]);
-      } else if (rightGradient.selected) {
-        color2.value = rgbToHex([r, g, b]);
+      r = Number(r);
+      g = Number(g);
+      b = Number(b);
+      // Ensure Numbers are between 0-255
+      if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255){
+        // console.log("INVALID RGB VALUES!")
+        alert("Invalid RGB Values!  Please enter values between 0-255");
+      } else {
+        if (leftGradient.selected) {
+          color1.value = rgbToHex([r, g, b]);
+        } else if (rightGradient.selected) {
+          color2.value = rgbToHex([r, g, b]);
+        }
       }
     }
+
 
   // IF HEX CHECKED
 	} else if (radioHEX.checked) {
@@ -144,7 +155,7 @@ function selectedColorUpdate() {
     let validHEX = true;
 
     for (var i=1; i<hex.length; i++){
-      if (!valsHEX.includes(hex[i])){validHEX = false}
+      if (!valsHEX.includes(hex[i].toUpperCase())){validHEX = false}
     }
     if (hex.length !== 6 || !validHEX){
       alert("Invalid HEX Value!  Please enter values six values that include the following: '0123456789ABCDEF'");
